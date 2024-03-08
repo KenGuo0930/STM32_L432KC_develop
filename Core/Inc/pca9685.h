@@ -35,7 +35,7 @@
 //
 //	 min and max values for battery
 //
-#define MIN_Volt	-5.0
+#define MIN_Volt	0
 #define MAX_Volt	5.0
 #endif
 

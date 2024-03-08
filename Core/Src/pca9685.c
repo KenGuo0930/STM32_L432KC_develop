@@ -175,8 +175,9 @@ PCA9685_STATUS PCA9685_SetVolt(uint8_t Channel, float Volt)
 	float DutyCycle_Value;
 	int invert = 0 ;
 
-	if(fabs(Volt) > MAX_Volt) Volt = MAX_Volt;
 	if(Volt < 0) invert = 1;
+	if(fabs(Volt) > MAX_Volt) Volt = MAX_Volt;
+
 
 	DutyCycle_Value = (fabs(Volt) - MIN_Volt) * ((float)SERVO_MAX - (float)SERVO_MIN) / (MAX_Volt - MIN_Volt) + (float)SERVO_MIN;
 

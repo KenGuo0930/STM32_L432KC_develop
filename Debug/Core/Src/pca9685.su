@@ -10,4 +10,4 @@
 ../Core/Src/pca9685.c:126:16:PCA9685_SetPin	16	static
 ../Core/Src/pca9685.c:159:16:PCA9685_SetServoAngle	24	static
 ../Core/Src/pca9685.c:173:16:PCA9685_SetVolt	24	static
-../Core/Src/pca9685.c:191:16:PCA9685_Init	16	static
+../Core/Src/pca9685.c:188:16:PCA9685_Init	16	static

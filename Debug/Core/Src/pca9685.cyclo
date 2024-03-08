@@ -9,5 +9,5 @@
 ../Core/Src/pca9685.c:107:16:PCA9685_SetPwm	2
 ../Core/Src/pca9685.c:126:16:PCA9685_SetPin	7
 ../Core/Src/pca9685.c:159:16:PCA9685_SetServoAngle	3
-../Core/Src/pca9685.c:173:16:PCA9685_SetVolt	5
-../Core/Src/pca9685.c:191:16:PCA9685_Init	1
+../Core/Src/pca9685.c:173:16:PCA9685_SetVolt	3
+../Core/Src/pca9685.c:188:16:PCA9685_Init	1

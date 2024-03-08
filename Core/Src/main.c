@@ -112,10 +112,10 @@ int main(void)
 	  float Volt;
 	  //PCA9685_SetServoAngle(ActiveServo, Angle = 0);
 //	  PCA9685_SetServoAngle(15, Angle = 0);
-	  PCA9685_SetVolt(0, Volt = 5);
+	  PCA9685_SetVolt(15, Volt = 5);
 	  HAL_Delay(5000);
 //	  PCA9685_SetServoAngle(15, Angle = 900);
-	  PCA9685_SetVolt(0, Volt = -5);
+	  PCA9685_SetVolt(15, Volt = -5);
 	  HAL_Delay(5000);
 
 
