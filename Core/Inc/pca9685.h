@@ -21,8 +21,8 @@
 //
 //	Servo min and max values for TURINGY TG9e Servo
 //
-#define SERVO_MIN	110
-#define SERVO_MAX	491
+#define SERVO_MIN	0
+#define SERVO_MAX	4095
 #define MAX_ANGLE	180.0
 #define MIN_ANGLE	0.0
 
@@ -35,7 +35,7 @@
 //
 //	 min and max values for battery
 //
-#define MIN_Volt	0
+#define MIN_Volt	0.0
 #define MAX_Volt	5.0
 #endif
 
