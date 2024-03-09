@@ -115,16 +115,7 @@ int main(void)
 	  PCA9685_SetVolt(15, Volt = 5);
 	  HAL_Delay(5000);
 
-	  PCA9685_SetVolt(15, Volt = 4);
-	  HAL_Delay(5000);
-
-	  PCA9685_SetVolt(15, Volt = 3);
-	  HAL_Delay(5000);
-
-	  PCA9685_SetVolt(15, Volt = 2);
-	  HAL_Delay(5000);
-
-	  PCA9685_SetVolt(15, Volt = 1);
+	  PCA9685_SetVolt(15, Volt = 2.5);
 	  HAL_Delay(5000);
 
 	  PCA9685_SetVolt(15, Volt = 0);

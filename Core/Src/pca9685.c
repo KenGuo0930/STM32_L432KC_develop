@@ -90,7 +90,7 @@ PCA9685_STATUS PCA9685_SetPwmFrequency(uint16_t Frequency)
 	}
 	else
 	{
-		PrescalerVal = (25000000 / (4096.0 * (float)Frequency)) - 1;
+		PrescalerVal = (25000000 / (4095.0 * (float)Frequency)) - 1;
 		Prescale = floor(PrescalerVal + 0.5);
 	}
 
@@ -130,11 +130,11 @@ PCA9685_STATUS PCA9685_SetPin(uint8_t Channel, uint16_t Value, uint8_t Invert)
   if (Invert) {
     if (Value == 0) {
       // Special value for signal fully on.
-      return PCA9685_SetPwm(Channel, 4096, 0);
+      return PCA9685_SetPwm(Channel, 4095, 0);
     }
     else if (Value == 4095) {
       // Special value for signal fully off.
-    	return PCA9685_SetPwm(Channel, 0, 4096);
+    	return PCA9685_SetPwm(Channel, 0, 4095);
     }
     else {
     	return PCA9685_SetPwm(Channel, 0, 4095-Value);
@@ -143,11 +143,11 @@ PCA9685_STATUS PCA9685_SetPin(uint8_t Channel, uint16_t Value, uint8_t Invert)
   else {
     if (Value == 4095) {
       // Special value for signal fully on.
-    	return PCA9685_SetPwm(Channel, 4096, 0);
+    	return PCA9685_SetPwm(Channel, 4095, 0);
     }
     else if (Value == 0) {
       // Special value for signal fully off.
-    	return PCA9685_SetPwm(Channel, 0, 4096);
+    	return PCA9685_SetPwm(Channel, 0, 4095);
     }
     else {
     	return PCA9685_SetPwm(Channel, 0, Value);
