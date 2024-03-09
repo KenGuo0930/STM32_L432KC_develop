@@ -96,11 +96,7 @@ int main(void)
 //  PCA9685_SetServoAngle(2, 0);
 //  PCA9685_SetServoAngle(3, 0);
 //  PCA9685_SetServoAngle(4, 0);
-  PCA9685_SetVolt(0, 0);
-  PCA9685_SetVolt(1, 0);
-  PCA9685_SetServoAngle(0, 0);
-  PCA9685_SetServoAngle(1, 0);
-  HAL_Delay(1000);
+
 
   /* USER CODE END 2 */
 
@@ -109,18 +105,16 @@ int main(void)
   while (1)
   {
 //	  float Angle;
-	  float Volt;
+//	  float Volt;
 	  //PCA9685_SetServoAngle(ActiveServo, Angle = 0);
 //	  PCA9685_SetServoAngle(15, Angle = 0);
-	  PCA9685_SetVolt(15, Volt = 5);
-	  HAL_Delay(5000);
+//	  PCA9685_SetVolt(15, Volt = 5.0);
 
-	  PCA9685_SetVolt(15, Volt = 2.5);
-	  HAL_Delay(5000);
-
-	  PCA9685_SetVolt(15, Volt = 0);
-	  HAL_Delay(5000);
-
+	  for(int i = 0;i < 4096; i = i + 25)
+	  {
+		  PCA9685_SetPin(15, i, 0);
+		  HAL_Delay(50);
+	  };
 
 
 

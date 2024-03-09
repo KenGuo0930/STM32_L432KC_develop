@@ -181,7 +181,7 @@ PCA9685_STATUS PCA9685_SetVolt(uint8_t Channel, float Volt)
 
 	DutyCycle_Value = (fabs(Volt) - MIN_Volt) * ((float)SERVO_MAX - (float)SERVO_MIN) / (MAX_Volt - MIN_Volt) + (float)SERVO_MIN;
 
-	return PCA9685_SetPin(Channel, DutyCycle_Value, invert);//uint8_t Channel, uint16_t Value, uint8_t Invert
+	return PCA9685_SetPin(Channel, (uint16_t)DutyCycle_Value, invert);//uint8_t Channel, uint16_t Value, uint8_t Invert
 }
 #endif
 
@@ -195,7 +195,7 @@ PCA9685_STATUS PCA9685_Init(I2C_HandleTypeDef *hi2c)
 	PCA9685_SetPwmFrequency(50);
 #else
 
-	PCA9685_SetPwmFrequency(1000);
+	PCA968530_SetPwmFrequency(1000);
 #endif
 	PCA9685_AutoIncrement(1);
 

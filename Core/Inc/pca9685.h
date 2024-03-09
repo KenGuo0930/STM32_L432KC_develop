@@ -21,8 +21,8 @@
 //
 //	Servo min and max values for TURINGY TG9e Servo
 //
-#define SERVO_MIN	0
-#define SERVO_MAX	4095
+#define SERVO_MIN	164//40 Hz
+#define SERVO_MAX	4095//1000 Hz
 #define MAX_ANGLE	180.0
 #define MIN_ANGLE	0.0
 
