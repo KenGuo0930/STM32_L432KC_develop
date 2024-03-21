@@ -23,7 +23,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "pca9685.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -33,13 +33,12 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define SERVO_COUNT	5
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-uint8_t ActiveServo;
-uint8_t ActiveVolt;
+
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -87,15 +86,8 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_I2C1_Init();
+  MX_I2C3_Init();
   /* USER CODE BEGIN 2 */
-
-  PCA9685_Init(&hi2c1);
-//  PCA9685_SetServoAngle(0, 0);
-//  PCA9685_SetServoAngle(1, 0);
-//  PCA9685_SetServoAngle(2, 0);
-//  PCA9685_SetServoAngle(3, 0);
-//  PCA9685_SetServoAngle(4, 0);
 
 
   /* USER CODE END 2 */
@@ -104,25 +96,6 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-//	  float Angle;
-//	  float Volt;
-	  //PCA9685_SetServoAngle(ActiveServo, Angle = 0);
-//	  PCA9685_SetServoAngle(15, Angle = 0);
-//	  PCA9685_SetVolt(15, Volt = 5.0);
-
-	  for(int i = 0;i < 4096; i = i + 25)
-	  {
-		  PCA9685_SetPin(15, i, 0);
-		  HAL_Delay(50);
-	  };
-
-
-
-	  //PCA9685_SetServoAngle(ActiveServo, Angle = 180);
-
-//	  for(int count = 0; count < 5; count++){PCA9685_SetServoAngle(count, Angle = 180);};
-
-
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
