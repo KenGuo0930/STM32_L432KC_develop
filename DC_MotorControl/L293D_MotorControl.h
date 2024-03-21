@@ -19,3 +19,5 @@ typedef enum{
 # define MOTOR_WAIT 0// Wait for GPIO output signal
 
 MOTOR_STATUS MOTOR_Run(uint8_t PWM_Channel, uint8_t GPIO_Port1,  uint8_t GPIO_Port2, float value);
+MOTOR_STATUS MOTOR_forward(uint8_t PWM_Channel, uint8_t GPIO_Port1,  uint8_t GPIO_Port2, float value);
+MOTOR_STATUS MOTOR_backward(uint8_t PWM_Channel, uint8_t GPIO_Port1,  uint8_t GPIO_Port2, float value);
