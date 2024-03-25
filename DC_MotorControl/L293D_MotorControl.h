@@ -5,19 +5,16 @@
  */
 
 #include "main.h"
-
+#include "tim.h"
 //type define
-
 typedef enum{
-
-	MOTOR_FORWARD, //Forward rotation
-	MOTOR_REVERSE, // Backward/Reverse rotation
-	MOTOR_STOP, // STOP
+	MOTOR_OK = 0,
+	MOTOR_ERROR = 1,
+	MOTOR_FORWARD = 2, //Forward rotation
+	MOTOR_REVERSE = 3, // Backward/Reverse rotation
+	MOTOR_STOP = 4, // STOP
 
 }MOTOR_STATUS;
 
-# define MOTOR_WAIT 0// Wait for GPIO output signal
 
-MOTOR_STATUS MOTOR_Run(uint8_t PWM_Channel, uint8_t GPIO_Port1,  uint8_t GPIO_Port2, float value);
-MOTOR_STATUS MOTOR_forward(uint8_t PWM_Channel, uint8_t GPIO_Port1,  uint8_t GPIO_Port2, float value);
-MOTOR_STATUS MOTOR_backward(uint8_t PWM_Channel, uint8_t GPIO_Port1,  uint8_t GPIO_Port2, float value);
+MOTOR_STATUS MOTOR_Run(uint8_t PWM_Channel, GPIO_TypeDef *Port1, uint8_t Pin1, GPIO_TypeDef *Port2, uint8_t Pin2, float Vlot_value);

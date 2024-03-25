@@ -24,5 +24,6 @@ C_DEPS :=
 SUBDIRS := \
 Core/Src \
 Core/Startup \
+DC_MotorControl \
 Drivers/STM32L4xx_HAL_Driver/Src \
 
