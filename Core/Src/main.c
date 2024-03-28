@@ -91,6 +91,9 @@ int main(void)
   MX_I2C3_Init();
   MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
+  HAL_TIM_Base_Start_IT(&htim1);
+  HAL_TIM_PWM_Start_IT(&htim1, TIM_CHANNEL_1);
+
 
 
   /* USER CODE END 2 */
