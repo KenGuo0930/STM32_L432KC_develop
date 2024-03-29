@@ -19,6 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "i2c.h"
+#include "lptim.h"
 #include "tim.h"
 #include "gpio.h"
 
@@ -34,6 +35,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+
 
 /* USER CODE END PD */
 
@@ -56,7 +58,7 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-//TIM_HandleTypeDef htim1;
+
 
 /* USER CODE END 0 */
 
@@ -88,11 +90,12 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_I2C3_Init();
   MX_TIM1_Init();
+  MX_I2C3_Init();
+  MX_LPTIM1_Init();
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT(&htim1);
-  HAL_TIM_PWM_Start_IT(&htim1, TIM_CHANNEL_1);
+  HAL_TIM_PWM_Start_IT(&htim1, TIM_CHANNEL_2);
 
 
 
@@ -100,17 +103,22 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+//  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2,50);
   while (1)
   {
     /* USER CODE END WHILE */
 
-	 MOTOR_Run(1, GPIOA, GPIO_PIN_7, GPIOB, GPIO_PIN_8, 16);
+	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_SET);//SET = High
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);
+//	HAL_TIM_PWM_PulseFinishedCallback(&htim1);
+
+//
+	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_RESET);//SET = High
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);
+	HAL_Delay(1000);
 
 
-	 HAL_Delay(200);
 
-	 MOTOR_Run(1, GPIOA, GPIO_PIN_7, GPIOB, GPIO_PIN_8, -500);
-	 HAL_Delay(200);
 
     /* USER CODE BEGIN 3 */
   }
