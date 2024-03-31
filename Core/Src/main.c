@@ -106,22 +106,26 @@ int main(void)
 //  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2,50);
   while (1)
   {
+
     /* USER CODE END WHILE */
 
 	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_SET);//SET = High
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);
 //	HAL_TIM_PWM_PulseFinishedCallback(&htim1);
-
-//
+	for(int i = 1; i<=200; i+=1)
+	{
+		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, i );
+		HAL_Delay(10);
+	}
 	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_RESET);//SET = High
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);
-	HAL_Delay(1000);
-
-
-
+	for(int i = 200; i >= 1; i-=1)
+	{
+		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, i);
+		HAL_Delay(10);
+	}
 
     /* USER CODE BEGIN 3 */
-  }
   /* USER CODE END 3 */
 }
 
