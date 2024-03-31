@@ -103,7 +103,6 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-//  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2,50);
   while (1)
   {
 
@@ -111,24 +110,30 @@ int main(void)
 
 	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_SET);//SET = High
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);
-//	HAL_TIM_PWM_PulseFinishedCallback(&htim1);
-	for(int i = 1; i<=200; i+=1)
-	{
-		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, i );
-		HAL_Delay(10);
-	}
-	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_RESET);//SET = High
-	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);
-	for(int i = 200; i >= 1; i-=1)
+	for(int i = 1; i<=200; i++)
 	{
 		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, i);
-		HAL_Delay(10);
-	}
+		HAL_Delay(100);
 
+//		break ;
+	}
+//	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, 0);
+	HAL_Delay(1000);
+	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_RESET);//SET = High
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);
+
+	for(int i = 200; i > 0; i--)
+	{
+		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, i);
+		HAL_Delay(100);
+
+//		break ;
+	}
+	HAL_Delay(1000);
     /* USER CODE BEGIN 3 */
   /* USER CODE END 3 */
+  }
 }
-
 /**
   * @brief System Clock Configuration
   * @retval None
@@ -197,7 +202,6 @@ void Error_Handler(void)
   }
   /* USER CODE END Error_Handler_Debug */
 }
-
 #ifdef  USE_FULL_ASSERT
 /**
   * @brief  Reports the name of the source file and the source line number
@@ -214,3 +218,4 @@ void assert_failed(uint8_t *file, uint32_t line)
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
+
