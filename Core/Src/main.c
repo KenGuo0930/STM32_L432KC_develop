@@ -18,7 +18,6 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "i2c.h"
 #include "lptim.h"
 #include "tim.h"
 #include "gpio.h"
@@ -91,8 +90,8 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_TIM1_Init();
-  MX_I2C3_Init();
   MX_LPTIM1_Init();
+  MX_TIM16_Init();
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT(&htim1);
   HAL_TIM_PWM_Start_IT(&htim1, TIM_CHANNEL_2);
@@ -107,17 +106,13 @@ int main(void)
   {
 
     /* USER CODE END WHILE */
-
-	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_SET);//SET = High
-	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);
 	for(int i = 1; i<=200; i++)
 	{
 		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, i);
 		HAL_Delay(100);
 
-//		break ;
 	}
-//	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, 0);
+	//	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, 0);
 	HAL_Delay(1000);
 	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_RESET);//SET = High
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);
@@ -125,15 +120,15 @@ int main(void)
 	for(int i = 200; i > 0; i--)
 	{
 		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, i);
-		HAL_Delay(100);
-
-//		break ;
+		HAL_Delay(10);
 	}
+
 	HAL_Delay(1000);
     /* USER CODE BEGIN 3 */
   /* USER CODE END 3 */
   }
 }
+
 /**
   * @brief System Clock Configuration
   * @retval None
@@ -202,6 +197,7 @@ void Error_Handler(void)
   }
   /* USER CODE END Error_Handler_Debug */
 }
+
 #ifdef  USE_FULL_ASSERT
 /**
   * @brief  Reports the name of the source file and the source line number
@@ -218,4 +214,3 @@ void assert_failed(uint8_t *file, uint32_t line)
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
-

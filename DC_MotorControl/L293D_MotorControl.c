@@ -8,12 +8,15 @@
 #include "tim.h"
 #include "main.h"
 
-MOTOR_STATUS MOTOR_Run(uint8_t PWM_Channel, GPIO_TypeDef *Port1, uint16_t Pin1, GPIO_TypeDef *Port2, uint16_t Pin2, float Vlot_value)
+MOTOR_STATUS MOTOR_Run(TIM_HandleTypeDef *htim,
+		uint8_t Channel, GPIO_TypeDef *Port1,
+		uint16_t Pin1, GPIO_TypeDef *Port2,
+		uint16_t Pin2, float Vlot_value)
 {
 	if(Vlot_value > 0){
 		HAL_GPIO_WritePin(Port1, Pin1, GPIO_PIN_SET);//SET = High
 		HAL_GPIO_WritePin(Port2, Pin2, GPIO_PIN_RESET);//Reset = low
-		__HAL_TIM_SET_COMPARE(&htim1, PWM_Channel, Vlot_value);
+		__HAL_TIM_SET_COMPARE(&htim, Channel, Vlot_value);
 		return MOTOR_FORWARD;
 
 	}
@@ -21,13 +24,13 @@ MOTOR_STATUS MOTOR_Run(uint8_t PWM_Channel, GPIO_TypeDef *Port1, uint16_t Pin1, 
 	else if(Vlot_value < 0){
 		HAL_GPIO_TogglePin(Port1, Pin1);//Port1 = low
 		HAL_GPIO_TogglePin(Port2, Pin2);//Port2 = High
-		__HAL_TIM_SET_COMPARE(&htim1, PWM_Channel, Vlot_value);
+		__HAL_TIM_SET_COMPARE(&htim, Channel, Vlot_value);
 		return MOTOR_REVERSE;
 	}
 
 	else{
 
-		HAL_GPIO_WritePin(Port1, Pin1, GPIO_PIN_RESET);//High
+		HAL_GPIO_WritePin(Port1, Pin1, GPIO_PIN_RESET);// low
 		HAL_GPIO_WritePin(Port2, Pin2, GPIO_PIN_RESET);// low
 		return MOTOR_STOP;
 
