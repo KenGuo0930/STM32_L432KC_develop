@@ -94,11 +94,23 @@ int main(void)
   MX_TIM16_Init();
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT(&htim1);
+  HAL_TIM_Base_Start_IT(&htim16);
+  HAL_TIM_PWM_Start_IT(&htim1, TIM_CHANNEL_1);
   HAL_TIM_PWM_Start_IT(&htim1, TIM_CHANNEL_2);
+  HAL_TIM_PWM_Start_IT(&htim1, TIM_CHANNEL_3);
+  HAL_TIM_PWM_Start_IT(&htim1, TIM_CHANNEL_4);
+  HAL_TIM_PWM_Start_IT(&htim16, TIM_CHANNEL_1);
+  MOTOR motor1 = {htim1, TIM_CHANNEL_2, GPIOA, GPIO_PIN_12, GPIOB, GPIO_PIN_0};
+  MOTOR motor2 = {htim1, TIM_CHANNEL_3, GPIOB, GPIO_PIN_7, GPIOB, GPIO_PIN_6};
+  MOTOR motor3 = {htim1, TIM_CHANNEL_1, GPIOB, GPIO_PIN_5, GPIOB, GPIO_PIN_4};
+  MOTOR motor4 = {htim1, TIM_CHANNEL_4, GPIOA, GPIO_PIN_1, GPIOA, GPIO_PIN_3};
+  MOTOR motor5 = {htim16, TIM_CHANNEL_1, GPIOA, GPIO_PIN_1, GPIOA, GPIO_PIN_0};
 
+//  float Vlot_value = 200;
 
 
   /* USER CODE END 2 */
+
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
@@ -106,27 +118,21 @@ int main(void)
   {
 
     /* USER CODE END WHILE */
-	for(int i = 1; i<=200; i++)
-	{
-		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, i);
-		HAL_Delay(100);
+	  for(int Vlot_value = -200; Vlot_value < 200; Vlot_value++)
+	  {
+		  MOTOR_Run(motor1, Vlot_value);
+		  MOTOR_Run(motor2, Vlot_value);
+		  MOTOR_Run(motor3, Vlot_value);
+		  MOTOR_Run(motor4, Vlot_value);
+		  MOTOR_Run(motor5, Vlot_value);
 
-	}
-	//	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, 0);
-	HAL_Delay(1000);
-	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_RESET);//SET = High
-	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);
+		  HAL_Delay(100);
+	  }
 
-	for(int i = 200; i > 0; i--)
-	{
-		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, i);
-		HAL_Delay(10);
-	}
-
-	HAL_Delay(1000);
     /* USER CODE BEGIN 3 */
-  /* USER CODE END 3 */
   }
+  /* USER CODE END 3 */
+
 }
 
 /**

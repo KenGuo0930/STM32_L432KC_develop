@@ -6,32 +6,32 @@
 
 #include "L293D_MotorControl.h"
 #include "tim.h"
+#include <stdio.h>
+#include <stdlib.h>
 #include "main.h"
 
-MOTOR_STATUS MOTOR_Run(TIM_HandleTypeDef *htim,
-		uint8_t Channel, GPIO_TypeDef *Port1,
-		uint16_t Pin1, GPIO_TypeDef *Port2,
-		uint16_t Pin2, float Vlot_value)
+MOTOR_STATUS MOTOR_Run(MOTOR motor, float Vlot_value)
 {
 	if(Vlot_value > 0){
-		HAL_GPIO_WritePin(Port1, Pin1, GPIO_PIN_SET);//SET = High
-		HAL_GPIO_WritePin(Port2, Pin2, GPIO_PIN_RESET);//Reset = low
-		__HAL_TIM_SET_COMPARE(&htim, Channel, Vlot_value);
+		HAL_GPIO_WritePin(motor.Port1, motor.Pin1, GPIO_PIN_SET);//SET = High
+		HAL_GPIO_WritePin(motor.Port2, motor.Pin2, GPIO_PIN_RESET);//Reset = low
+		__HAL_TIM_SET_COMPARE(&motor.htim, motor.Channel, Vlot_value);
 		return MOTOR_FORWARD;
 
 	}
 	//reverse
 	else if(Vlot_value < 0){
-		HAL_GPIO_TogglePin(Port1, Pin1);//Port1 = low
-		HAL_GPIO_TogglePin(Port2, Pin2);//Port2 = High
-		__HAL_TIM_SET_COMPARE(&htim, Channel, Vlot_value);
+		Vlot_value = abs(Vlot_value);
+		HAL_GPIO_WritePin(motor.Port1, motor.Pin1, GPIO_PIN_RESET);//Port1 = low
+		HAL_GPIO_WritePin(motor.Port2, motor.Pin2, GPIO_PIN_SET);//Port2 = High
+		__HAL_TIM_SET_COMPARE(&motor.htim, motor.Channel, Vlot_value);
 		return MOTOR_REVERSE;
 	}
 
 	else{
 
-		HAL_GPIO_WritePin(Port1, Pin1, GPIO_PIN_RESET);// low
-		HAL_GPIO_WritePin(Port2, Pin2, GPIO_PIN_RESET);// low
+		HAL_GPIO_WritePin(motor.Port1, motor.Pin1, GPIO_PIN_RESET);// low
+		HAL_GPIO_WritePin(motor.Port2, motor.Pin2, GPIO_PIN_RESET);// low
 		return MOTOR_STOP;
 
 	}

@@ -17,4 +17,16 @@ typedef enum{
 }MOTOR_STATUS;
 
 
-MOTOR_STATUS MOTOR_Run(uint8_t PWM_Channel, GPIO_TypeDef *Port1, uint16_t Pin1, GPIO_TypeDef *Port2, uint16_t Pin2, float Vlot_value);
+typedef struct{
+	TIM_HandleTypeDef htim;
+	uint8_t Channel;
+
+	GPIO_TypeDef *Port1;
+	uint16_t Pin1;
+
+	GPIO_TypeDef *Port2;
+	uint16_t Pin2;
+}MOTOR;
+
+
+MOTOR_STATUS MOTOR_Run(MOTOR motor, float Vlot_value);
