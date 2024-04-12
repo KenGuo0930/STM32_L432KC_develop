@@ -18,7 +18,6 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "lptim.h"
 #include "tim.h"
 #include "gpio.h"
 
@@ -90,34 +89,35 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_TIM1_Init();
-  MX_LPTIM1_Init();
   MX_TIM16_Init();
+  MX_TIM15_Init();
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT(&htim1);
+  HAL_TIM_Base_Start_IT(&htim15);
   HAL_TIM_Base_Start_IT(&htim16);
+
   HAL_TIM_PWM_Start_IT(&htim1, TIM_CHANNEL_1);
   HAL_TIM_PWM_Start_IT(&htim1, TIM_CHANNEL_2);
   HAL_TIM_PWM_Start_IT(&htim1, TIM_CHANNEL_3);
   HAL_TIM_PWM_Start_IT(&htim1, TIM_CHANNEL_4);
+  HAL_TIM_PWM_Start_IT(&htim15, TIM_CHANNEL_1);
   HAL_TIM_PWM_Start_IT(&htim16, TIM_CHANNEL_1);
+
   MOTOR motor1 = {htim1, TIM_CHANNEL_2, GPIOA, GPIO_PIN_12, GPIOB, GPIO_PIN_0};
   MOTOR motor2 = {htim1, TIM_CHANNEL_3, GPIOB, GPIO_PIN_7, GPIOB, GPIO_PIN_6};
   MOTOR motor3 = {htim1, TIM_CHANNEL_1, GPIOB, GPIO_PIN_5, GPIOB, GPIO_PIN_4};
-  MOTOR motor4 = {htim1, TIM_CHANNEL_4, GPIOA, GPIO_PIN_1, GPIOA, GPIO_PIN_3};
-  MOTOR motor5 = {htim16, TIM_CHANNEL_1, GPIOA, GPIO_PIN_1, GPIOA, GPIO_PIN_0};
+  MOTOR motor4 = {htim1, TIM_CHANNEL_4, GPIOA, GPIO_PIN_4, GPIOA, GPIO_PIN_3};
+  MOTOR motor5 = {htim15, TIM_CHANNEL_1, GPIOA, GPIO_PIN_1, GPIOA, GPIO_PIN_0};
 
 //  float Vlot_value = 200;
 
 
   /* USER CODE END 2 */
 
-
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-
-    /* USER CODE END WHILE */
 	  for(int Vlot_value = -200; Vlot_value < 200; Vlot_value++)
 	  {
 		  MOTOR_Run(motor1, Vlot_value);
@@ -129,10 +129,11 @@ int main(void)
 		  HAL_Delay(100);
 	  }
 
+    /* USER CODE END WHILE */
+
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
-
 }
 
 /**
