@@ -19,11 +19,14 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "tim.h"
+#include "usart.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "L293D_MotorControl.h"
+#include <stdio.h>
+#include <stdlib.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -33,7 +36,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
+#define LENGTH 3
 
 /* USER CODE END PD */
 
@@ -51,11 +54,26 @@
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
+uint8_t Rxbuffer[LENGTH];
+uint8_t warning[] = "Warning: No Data Received!\r\n";
+uint8_t RxFlag = 0;
+
 
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+void UartSentData(void)
+{
+	if(RxFlag ==1)
+	{
+		RxFlag = 0;
+		HAL_UART_Transmit_IT(&huart2, (uint8_t *)&Rxbuffer, LENGTH);
+
+	}
+}
+
+
 
 
 /* USER CODE END 0 */
@@ -91,6 +109,7 @@ int main(void)
   MX_TIM1_Init();
   MX_TIM16_Init();
   MX_TIM15_Init();
+  MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT(&htim1);
   HAL_TIM_Base_Start_IT(&htim15);
@@ -104,10 +123,10 @@ int main(void)
   HAL_TIM_PWM_Start_IT(&htim16, TIM_CHANNEL_1);
 
   MOTOR motor1 = {htim1, TIM_CHANNEL_2, GPIOA, GPIO_PIN_12, GPIOB, GPIO_PIN_0};
-  MOTOR motor2 = {htim1, TIM_CHANNEL_3, GPIOB, GPIO_PIN_7, GPIOB, GPIO_PIN_6};
-  MOTOR motor3 = {htim1, TIM_CHANNEL_1, GPIOB, GPIO_PIN_5, GPIOB, GPIO_PIN_4};
-  MOTOR motor4 = {htim1, TIM_CHANNEL_4, GPIOA, GPIO_PIN_4, GPIOA, GPIO_PIN_3};
-  MOTOR motor5 = {htim15, TIM_CHANNEL_1, GPIOA, GPIO_PIN_1, GPIOA, GPIO_PIN_0};
+//  MOTOR motor2 = {htim1, TIM_CHANNEL_3, GPIOB, GPIO_PIN_7, GPIOB, GPIO_PIN_6};
+//  MOTOR motor3 = {htim1, TIM_CHANNEL_1, GPIOB, GPIO_PIN_5, GPIOB, GPIO_PIN_4};
+//  MOTOR motor4 = {htim1, TIM_CHANNEL_4, GPIOA, GPIO_PIN_4, GPIOA, GPIO_PIN_3};
+//  MOTOR motor5 = {htim15, TIM_CHANNEL_1, GPIOA, GPIO_PIN_1, GPIOA, GPIO_PIN_0};
 
 //  float Vlot_value = 200;
 
@@ -118,16 +137,12 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  for(int Vlot_value = -200; Vlot_value < 200; Vlot_value++)
-	  {
-		  MOTOR_Run(motor1, Vlot_value);
-		  MOTOR_Run(motor2, Vlot_value);
-		  MOTOR_Run(motor3, Vlot_value);
-		  MOTOR_Run(motor4, Vlot_value);
-		  MOTOR_Run(motor5, Vlot_value);
 
-		  HAL_Delay(100);
-	  }
+	  HAL_UART_Receive_IT(&huart2, (uint8_t *)&Rxbuffer, sizeof(Rxbuffer));
+//	  UartSentData();
+	  float speed = atof(Rxbuffer);
+	  MOTOR_Run(motor1, speed);
+//	  HAL_Delay(10);
 
     /* USER CODE END WHILE */
 
@@ -187,6 +202,15 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+//void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+//{
+//    if (huart->Instance == USART2)
+//    {
+//    	RxFlag = 1;
+//        /* Re-enable interrupt for next reception */
+//        HAL_UART_Receive_IT(&huart2, (uint8_t *)&Rxbuffer, LENGTH);
+//    }
+//}
 
 /* USER CODE END 4 */
 
