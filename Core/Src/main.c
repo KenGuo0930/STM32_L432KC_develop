@@ -25,6 +25,8 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "L293D_MotorControl.h"
+#include "USART_DataCatch.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -54,7 +56,6 @@
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
-
 #ifdef __GNUC__
 #define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
 #else
@@ -64,7 +65,7 @@ void SystemClock_Config(void);
 PUTCHAR_PROTOTYPE
 {
 	HAL_UART_Transmit(&huart2, (uint8_t *)&ch, 1, HAL_MAX_DELAY);
-	return ch;
+return ch;
 }
 
 
@@ -74,27 +75,9 @@ const char *Rxbuffer[100];
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-void parseDoubles(const char *str, double *values, int valueCount) {
-    const char *ptr = str;
-    for (int i = 0; i < valueCount; ++i) {
-        if (sscanf(ptr, "%lf", &values[i]) != 1) {
-            fprintf(stderr, "Failed to parse double at index %zu\n", i);
-            break;
-        }
-        // 移动指针到下一个空格的位置
-        while (*ptr != ' ' && *ptr != '\0') {
-            ++ptr;
-        }
-        // 跳过空格
-        while (*ptr == ' ') {
-            ++ptr;
-        }
-    }
-}
 
 /* USER CODE END 0 */
-.
-.
+
 /**
   * @brief  The application entry point.
   * @retval int
@@ -129,24 +112,25 @@ int main(void)
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT(&htim1);
-  HAL_TIM_Base_Start_IT(&htim15);
   HAL_TIM_Base_Start_IT(&htim16);
 
   HAL_TIM_PWM_Start_IT(&htim1, TIM_CHANNEL_1);
   HAL_TIM_PWM_Start_IT(&htim1, TIM_CHANNEL_2);
   HAL_TIM_PWM_Start_IT(&htim1, TIM_CHANNEL_3);
   HAL_TIM_PWM_Start_IT(&htim1, TIM_CHANNEL_4);
-  HAL_TIM_PWM_Start_IT(&htim15, TIM_CHANNEL_1);
   HAL_TIM_PWM_Start_IT(&htim16, TIM_CHANNEL_1);
 
-//  MOTOR motor1 = {htim1, TIM_CHANNEL_2, GPIOA, GPIO_PIN_12, GPIOB, GPIO_PIN_0};
-//  MOTOR motor2 = {htim1, TIM_CHANNEL_3, GPIOB, GPIO_PIN_7, GPIOB, GPIO_PIN_6};
-//  MOTOR motor3 = {htim1, TIM_CHANNEL_1, GPIOB, GPIO_PIN_5, GPIOB, GPIO_PIN_4};
-//  MOTOR motor4 = {htim1, TIM_CHANNEL_4, GPIOA, GPIO_PIN_4, GPIOA, GPIO_PIN_3};
-//  MOTOR motor5 = {htim15, TIM_CHANNEL_1, GPIOA, GPIO_PIN_1, GPIOA, GPIO_PIN_0};
+
+  MOTOR motor1 = {htim1, TIM_CHANNEL_2, GPIOA, GPIO_PIN_12, GPIOB, GPIO_PIN_0};//PWM = PA9,GPIO_1 = PA12, GPIO_0 = PB0
+  MOTOR motor2 = {htim1, TIM_CHANNEL_3, GPIOB, GPIO_PIN_7, GPIOB, GPIO_PIN_6};//PWM = PA10,GPIO_1 = PB7, GPIO_0 = PB6
+  MOTOR motor3 = {htim1, TIM_CHANNEL_1, GPIOB, GPIO_PIN_5, GPIOB, GPIO_PIN_4};//PWM = PA8,GPIO_1 = PB5, GPIO_0 = PB4
+  MOTOR motor4 = {htim1, TIM_CHANNEL_4, GPIOA, GPIO_PIN_4, GPIOA, GPIO_PIN_3};//PWM = PA11,GPIO_1 = PB7, GPIO_0 = PB6
+  MOTOR motor5 = {htim16, TIM_CHANNEL_1, GPIOA, GPIO_PIN_1, GPIOA, GPIO_PIN_0};//PWM = PA6,GPIO_1 = PB7, GPIO_0 = PB6
+  MOTOR motors[] = { motor1, motor2, motor3, motor4, motor5 };
 
   int valueCount = 5;
   double values[5];
+
 
   /* USER CODE END 2 */
 
@@ -157,11 +141,11 @@ int main(void)
 	  HAL_UART_Receive_IT(&huart2, (uint8_t *)&Rxbuffer, sizeof(Rxbuffer));
 	  parseDoubles(Rxbuffer, values, valueCount);
 //	  double speed = atof((const char*)Rxbuffer);
-	for (size_t i = 0; i < valueCount; ++i) {
-		printf("Parsed value[%zu]: %lf\n", i, values[i]);
-		}
-
-	HAL_Delay(500);
+	  for (size_t i = 0; i < valueCount; ++i) {
+		  MOTOR_Run(motors[i] , values[i]);
+		  printf("Motor %d: Force value[%d]: %lf\n", i + 1, i, values[i]);
+		  HAL_Delay(500);
+	  }
 
 //	  for (size_t i = 0; i < valueCount; ++i) {
 //	          printf("Parsed value[%zu]: %lf\n", i, values[i]);
@@ -172,7 +156,6 @@ int main(void)
   }
   /* USER CODE END 3 */
 }
-
 /**
   * @brief System Clock Configuration
   * @retval None
