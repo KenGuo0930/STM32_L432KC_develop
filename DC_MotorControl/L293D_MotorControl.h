@@ -29,4 +29,4 @@ typedef struct{
 }MOTOR;
 
 
-MOTOR_STATUS MOTOR_Run(MOTOR motor, float Vlot_value);
+MOTOR_STATUS MOTOR_Run(MOTOR motor, float Vlot_value, int index);

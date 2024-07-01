@@ -69,7 +69,7 @@ return ch;
 }
 
 
-const char *Rxbuffer[100];
+char Rxbuffer[10];
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -143,10 +143,9 @@ int main(void)
 	  HAL_UART_Receive_IT(&huart2, (uint8_t *)&Rxbuffer, sizeof(Rxbuffer));
 
 	  parseTwoValues(Rxbuffer, &finger_index, &force_value);
-//	  double speed = atof((const char*)Rxbuffer);
-	  MOTOR_Run(motors[finger_index] , force_value);
-	  printf("Motor %d: Force value: %lf\n", finger_index, force_value);
-	  HAL_Delay(100);
+	  MOTOR_Run(motors[finger_index] , force_value, finger_index);
+	  printf("Motor %d: Force value: %.2lf\n", finger_index, force_value);
+	  HAL_Delay(250);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
