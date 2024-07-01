@@ -10,7 +10,7 @@
 
 
 
-void parseDoubles(const char *str, double *values, int valueCount);
+void parseTwoValues(const char *str, int *index, double *value);
 
 
 

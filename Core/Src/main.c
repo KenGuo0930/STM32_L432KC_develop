@@ -128,8 +128,10 @@ int main(void)
   MOTOR motor5 = {htim16, TIM_CHANNEL_1, GPIOA, GPIO_PIN_1, GPIOA, GPIO_PIN_0};//PWM = PA6,GPIO_1 = PB7, GPIO_0 = PB6
   MOTOR motors[] = { motor1, motor2, motor3, motor4, motor5 };
 
-  int valueCount = 5;
-  double values[5];
+
+
+  double force_value = 0;
+  int finger_index = 0;
 
 
   /* USER CODE END 2 */
@@ -139,17 +141,12 @@ int main(void)
   while (1)
   {
 	  HAL_UART_Receive_IT(&huart2, (uint8_t *)&Rxbuffer, sizeof(Rxbuffer));
-	  parseDoubles(Rxbuffer, values, valueCount);
-//	  double speed = atof((const char*)Rxbuffer);
-	  for (size_t i = 0; i < valueCount; ++i) {
-		  MOTOR_Run(motors[i] , values[i]);
-		  printf("Motor %d: Force value[%d]: %lf\n", i + 1, i, values[i]);
-		  HAL_Delay(500);
-	  }
 
-//	  for (size_t i = 0; i < valueCount; ++i) {
-//	          printf("Parsed value[%zu]: %lf\n", i, values[i]);
-//	      }
+	  parseTwoValues(Rxbuffer, &finger_index, &force_value);
+//	  double speed = atof((const char*)Rxbuffer);
+	  MOTOR_Run(motors[finger_index] , force_value);
+	  printf("Motor %d: Force value: %lf\n", finger_index, force_value);
+	  HAL_Delay(100);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
