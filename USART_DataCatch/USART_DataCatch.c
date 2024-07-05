@@ -32,3 +32,11 @@ void parseTwoValues(const char *str, int *index, double *value) {
         return;
     }
 }
+
+
+double Volt_CCR_Transfer(double MAX_CCR, double MAX_volt, double Capture_volt)
+{
+	double slope = MAX_CCR / MAX_volt;
+	//double CCR = Capture_volt * slope;
+	return  Capture_volt * slope;
+}

@@ -39,7 +39,8 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
+#define MAX_VLOT 12
+#define MAX_CCR 200
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -61,6 +62,8 @@ void SystemClock_Config(void);
 #else
 #define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
 #endif
+
+
 
 PUTCHAR_PROTOTYPE
 {
@@ -130,7 +133,7 @@ int main(void)
 
 
 
-  double force_value = 0;
+  double volt_value, CCR_value = 0;
   int finger_index = 0;
 
 
@@ -142,9 +145,13 @@ int main(void)
   {
 	  HAL_UART_Receive_IT(&huart2, (uint8_t *)&Rxbuffer, sizeof(Rxbuffer));
 
-	  parseTwoValues(Rxbuffer, &finger_index, &force_value);
-	  MOTOR_Run(motors[finger_index] , force_value, finger_index);
-	  printf("Motor %d: Force value: %.2lf\n", finger_index, force_value);
+	  parseTwoValues(Rxbuffer, &finger_index, &volt_value);
+
+	  CCR_value = Volt_CCR_Transfer(MAX_CCR, MAX_VLOT, volt_value);
+	  printf("CCR_value: %.2lf\n", CCR_value);
+
+	  MOTOR_Run(motors[finger_index] , CCR_value, finger_index);
+	  printf("Motor %d: Force value: %.2lf\n", finger_index, volt_value);
 	  HAL_Delay(250);
     /* USER CODE END WHILE */
 
@@ -152,6 +159,7 @@ int main(void)
   }
   /* USER CODE END 3 */
 }
+
 /**
   * @brief System Clock Configuration
   * @retval None
