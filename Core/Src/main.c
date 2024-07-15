@@ -111,7 +111,6 @@ int main(void)
   MX_GPIO_Init();
   MX_TIM1_Init();
   MX_TIM16_Init();
-  MX_TIM15_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT(&htim1);
@@ -150,15 +149,9 @@ int main(void)
 	  CCR_value = Volt_CCR_Transfer(MAX_CCR, MAX_VLOT, volt_value);
 	  printf("CCR_value: %.2lf\n", CCR_value);
 
-	  for(int i = 0; i<200 ;i++)
-	  {
-		  MOTOR_Run(motor1 , i, finger_index);
-		  printf("Motor %d: volt value: %.2lf\n", finger_index, volt_value);
-		  HAL_Delay(300);
-	  }
-//	  MOTOR_Run(motors[finger_index] , CCR_value, finger_index);
-//	  printf("Motor %d: volt value: %.2lf\n", finger_index, volt_value);
-//	  HAL_Delay(250);
+	  MOTOR_Run(motors[finger_index] , CCR_value, finger_index);
+	  printf("Motor %d: volt value: %.2lf\n", finger_index, volt_value);
+	  HAL_Delay(250);
 
 
     /* USER CODE END WHILE */
