@@ -16,7 +16,7 @@ MOTOR_STATUS MOTOR_Run(MOTOR motor, float Vlot_value, int index)
 		HAL_GPIO_WritePin(motor.Port1, motor.Pin1, GPIO_PIN_SET);//SET = High
 		HAL_GPIO_WritePin(motor.Port2, motor.Pin2, GPIO_PIN_RESET);//Reset = low
 		__HAL_TIM_SET_COMPARE(&motor.htim, motor.Channel, Vlot_value);
-		printf("Motor %d: forward\n", index);
+		printf("Motor %d: forward\n", index +1);
 		return MOTOR_FORWARD;
 
 	}
@@ -26,7 +26,7 @@ MOTOR_STATUS MOTOR_Run(MOTOR motor, float Vlot_value, int index)
 		HAL_GPIO_WritePin(motor.Port1, motor.Pin1, GPIO_PIN_RESET);//Port1 = low
 		HAL_GPIO_WritePin(motor.Port2, motor.Pin2, GPIO_PIN_SET);//Port2 = High
 		__HAL_TIM_SET_COMPARE(&motor.htim, motor.Channel, Vlot_value);
-		printf("Motor %d: reverse\n", index);
+		printf("Motor %d: reverse\n", index +1);
 		return MOTOR_REVERSE;
 	}
 
