@@ -40,7 +40,7 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 #define MAX_VLOT 12
-#define MAX_CCR 200
+#define MAX_CCR 2000
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
